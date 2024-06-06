@@ -6,22 +6,22 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik } from 'formik';
-import { object, string } from 'yup';
+import * as yup from 'yup';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 function Course() {
-
     const [data, setData] = useState([]);
     const [edit, setEdit] = useState(null);
+    const [open, setOpen] = useState(false);
 
     const getData = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/courses/listCourse");
-            const data = await response.json();
-            console.log(data.data);
-            setData(data.data);
+            const response = await fetch("http://localhost:8001/api/v1/courses/list-course");
+            const result = await response.json();
+            console.log(result.data);
+            setData(result.data);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -31,15 +31,15 @@ function Course() {
         getData();
     }, []);
 
-    const courseSchema = object({
-        course_name: string().required("Course name is required").matches(/^[a-zA-Z'-\s]*$/, 'Invalid name'),
-        description: string().required("Description is required").min(10, "Must be at least 10 characters"),
+    const courseSchema = yup.object({
+        name: yup.string().required("Course name is required").matches(/^[a-zA-Z'-\s]*$/, 'Invalid name'),
+        description: yup.string().required("Description is required").min(10, "Must be at least 10 characters"),
     });
 
     const handleAdd = async (data) => {
         console.log(data);
         try {
-            await fetch("http://localhost:8080/api/v1/courses/addCourse", {
+            await fetch("http://localhost:8001/api/v1/courses/add-course", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -55,11 +55,11 @@ function Course() {
     const handleDelete = async (id) => {
         console.log(id);
         try {
-            await fetch("http://localhost:8080/api/v1/courses/deleteCourse/" + id, {
+            await fetch(`http://localhost:8001/api/v1/courses/delete-course/${id}`, {
                 method: 'DELETE'
-            })
+            });
         } catch (error) {
-
+            console.error('Error deleting data:', error);
         }
         getData();
     };
@@ -73,7 +73,7 @@ function Course() {
     const handleUpdate = async (data) => {
         console.log(data);
         try {
-            await fetch("http://localhost:8080/api/v1/courses/updateCourse/" + data._id, {
+            await fetch(`http://localhost:8001/api/v1/courses/update-course/${data._id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ function Course() {
 
     const formik = useFormik({
         initialValues: {
-            course_name: '',
+            name: '',
             description: '',
         },
         validationSchema: courseSchema,
@@ -105,8 +105,6 @@ function Course() {
 
     const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik;
 
-    const [open, setOpen] = useState(false);
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -119,7 +117,7 @@ function Course() {
 
     const columns = [
         {
-            field: 'course_name',
+            field: 'name',
             headerName: 'Course Name',
             width: 130
         },
@@ -171,17 +169,17 @@ function Course() {
                         <DialogContent>
                             <TextField
                                 margin="dense"
-                                id="course_name"
-                                name="course_name"
+                                id="name"
+                                name="name"
                                 label="Course Name"
                                 type="text"
                                 fullWidth
                                 variant="standard"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.course_name}
-                                error={touched.course_name && Boolean(errors.course_name)}
-                                helperText={touched.course_name && errors.course_name}
+                                value={values.name}
+                                error={touched.name && Boolean(errors.name)}
+                                helperText={touched.name && errors.name}
                             />
                             <TextField
                                 margin="dense"
@@ -197,7 +195,6 @@ function Course() {
                                 error={touched.description && Boolean(errors.description)}
                                 helperText={touched.description && errors.description}
                             />
-                        
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={handleClose}>Cancel</Button>

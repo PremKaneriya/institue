@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router';
-import logo from './logo.svg';
 import AdminRoutes from './routes/AdminRoutes';
 import PrivateRoutes from './routes/PrivateRoutes';
 

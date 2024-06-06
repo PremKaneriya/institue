@@ -7,23 +7,16 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { NavLink } from 'react-router-dom';
 import AppleIcon from '@mui/icons-material/Apple';
-import BakeryDiningIcon from '@mui/icons-material/BakeryDining';
-import CategoryIcon from '@mui/icons-material/Category';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import AgricultureIcon from '@mui/icons-material/Agriculture';
 
 const drawerWidth = 240;
 
